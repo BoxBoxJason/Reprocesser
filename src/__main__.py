@@ -10,7 +10,7 @@ from sys import stdout
 import logging
 project_path = realpath(dirname(dirname(__file__)))
 environ['REPROCESSER'] = project_path
-from reprocess.ReprocessTennis import fillMenTennisDataELO,fillMenTennisDataMMR
+from reprocess.ReprocessF1 import fillF1MenData
 ##----------Logging setup----------##
 logging.basicConfig(
     level=logging.INFO,
@@ -21,12 +21,4 @@ logging.basicConfig(
     ]
 )
 
-players_table_MMR = {}
-games_table_MMR = {}
-players_table_ELO = {}
-games_table_ELO = {}
-
-fillMenTennisDataMMR(games_table_MMR,players_table_MMR,'1991-2016')
-fillMenTennisDataMMR(games_table_MMR,players_table_MMR,'2017')
-fillMenTennisDataELO(games_table_ELO,players_table_ELO,'1991-2016')
-fillMenTennisDataELO(games_table_ELO,players_table_ELO,'2017')
+fillF1MenData({},{},True)

@@ -11,10 +11,10 @@ START_SKILL = 1500
 START_DEVIATION = 350
 def createPlayerMMR(players_table,player_slug):
     """
-    @brief Creates a new player dict in the players table
+    Creates a new row in Players table
 
-    @param (dict) players_table : Database players table
-    @param (str) player_slug : Source player slug (id)
+    :param dict players_table: Database Players table.
+    :param str player_slug: Source player (unique) slug (id).
     """
     players_table[player_slug] = {
         'ID':player_slug,
@@ -26,20 +26,32 @@ def createPlayerMMR(players_table,player_slug):
     }
 
 
+def createGameMMR(games_table,game_id,game_date,game_ranking):
+    """
+    Creates a new row in the Games table.
+
+    :param dict games_table: Database Games table.
+    :param str game_id: (unique) game id.
+    :param str game_date: Game date.
+    :param list[str]: List of players ids ranked by game performance (0: winner, -1: loser)
+    """
+    games_table[game_id] = {
+        'ID':game_id,
+        'DATE':game_date,
+        'RANKING':game_ranking,
+        'PROCESSED':False
+    }
+
+
 def orderGamesTable(games_table):
     """
-    @brief Orders the games table by dates and returns them
+    Orders the Games table by dates and returns a list of ids ordered by corresponding date.
 
-    @param (dict) games_table : Database games table
+    :param dict games_table: Database Games table.
 
-    @return (dict[]) games list ordered by date
+    :return: list[str] - List of games ids ordered by date.
     """
-    games_table_list = []
-    for game_dict in games_table.values():
-        games_table_list.append(game_dict)
-
+    games_table_list = list(games_table.values())
     games_table_list.sort(key = lambda x : x['DATE'])
-    for i,game_dict in enumerate(games_table_list):
-        games_table_list[i] = game_dict['ID']
 
-    return games_table_list
+    return [game_dict['ID'] for game_dict in games_table_list]
